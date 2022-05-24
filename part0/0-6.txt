@@ -1,0 +1,9 @@
+note over browser:
+Inside the spa.js, the default handling of form submit is prevented. 
+Upon submit, a note object is created and is pushed. Then the html is updated (the notes are redrawn)
+Finally, the newly added note is send in an HTTP POST request as JSON
+end note
+browser->server: HTTP POST https://studies.cs.helsinki.fi/exampleapp/new_note_spa
+# The browser send an HTTP POST request with the newly added data as a content as a JSON data type
+server->browser: HTTP 201 Created
+# with the message note created
