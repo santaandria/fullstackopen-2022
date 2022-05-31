@@ -1,4 +1,7 @@
 import { useState } from "react";
+import Contacts from "./components/Contacts";
+import Filter from "./components/Filter";
+import Form from "./components/Form";
 
 const App = () => {
   const [persons, setPersons] = useState([
@@ -13,6 +16,7 @@ const App = () => {
   /*
   TODO Add number format checker
   TODO Check if number + name already exist
+  TODO Dont accept contact without number
   */
   const addPerson = (event) => {
     event.preventDefault();
@@ -38,6 +42,7 @@ const App = () => {
     let re = new RegExp(filter, "gi");
     return persons.filter((person) => re.test(person.name));
   };
+
   const displayPerson = () => {
     let displayed = persons;
     if (nameFilter !== "") {
@@ -53,36 +58,19 @@ const App = () => {
   return (
     <div>
       <h1>Phonebook</h1>
-      <div>
-        Filter by name:{" "}
-        <input value={nameFilter} onChange={handleFilterChange} />
-      </div>
+      <Filter
+        label="Filter by Name"
+        inputValue={nameFilter}
+        onChange={handleFilterChange}
+      />
       <h2>Add New Contact</h2>
-      <form onSubmit={addPerson}>
-        <div>
-          name:{" "}
-          <input value={newContact.name} name="name" onChange={handleChange} />
-        </div>
-        <div>
-          number:{" "}
-          <input
-            value={newContact.number}
-            name="number"
-            onChange={handleChange}
-          />
-        </div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
+      <Form
+        fieldObject={newContact}
+        onSubmit={addPerson}
+        onChange={handleChange}
+      />
       <h2>Numbers</h2>
-      <ul>
-        {displayPerson().map((person, index) => (
-          <li key={index + 1}>
-            {person.name} {person.number}
-          </li>
-        ))}
-      </ul>
+      <Contacts persons={displayPerson()} />
     </div>
   );
 };
